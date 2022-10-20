@@ -1,8 +1,9 @@
-const {Contact} = require('../../models/contact')
+const { Contact } = require('../../models/contact')
 
 const getById = async (req, res) => {
+  const { _id } = req.user
   const { contactId } = req.params
-  const result = await Contact.findById(contactId)
+  const result = await Contact.findOne({ contactId, owner: _id })
   if (!result) {
     const error = new Error(`contact with id ${contactId} not found`)
     error.status = 404

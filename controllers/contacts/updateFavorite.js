@@ -1,6 +1,7 @@
 const { Contact, favoriteJoiSchema } = require('../../models/contact')
 
 const updateFavorite = async (req, res) => {
+  const { _id } = req.user
   const { error } = favoriteJoiSchema.validate(req.body)
   if (error) {
     error.status = 400
@@ -8,10 +9,9 @@ const updateFavorite = async (req, res) => {
   }
   const { contactId } = req.params
   const { favorite } = req.body
-  console.log(favorite)
   const result = await Contact.findByIdAndUpdate(
     contactId,
-    { favorite },
+    { favorite, owner: _id },
     {
       new: true,
     },
