@@ -1,5 +1,6 @@
 const { User, userSignUpJoiSchema } = require('../../models/users')
 const bcrypt = require('bcryptjs')
+const gravatar = require('gravatar')
 
 const signUp = async (req, res) => {
   const { name, email, password, subscription = 'starter' } = req.body
@@ -15,8 +16,15 @@ const signUp = async (req, res) => {
     throw error
   }
 
+  const avatarURL = gravatar.url(email)
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-  await User.create({ name, email, password: hashPassword })
+  await User.create({
+    name,
+    email,
+    password: hashPassword,
+    avatarURL,
+    subscription,
+  })
 
   res.status(201).json({
     status: 'succsess',
@@ -26,6 +34,7 @@ const signUp = async (req, res) => {
         name,
         email,
         subscription,
+        avatarURL,
       },
     },
   })
