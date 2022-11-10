@@ -22,6 +22,7 @@ const auth = async (req, res, next) => {
       error.status = 401
       throw error
     }
+  
     req.user = user
     next()
   } catch (error) {

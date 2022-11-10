@@ -15,6 +15,7 @@ const subscriptionJoiSchema = joi.object({
 })
 
 const userSchema = Schema({
+  name: {type: String},
   password: {
     type: String,
     required: [true, 'Password is required'],
